@@ -1,0 +1,16 @@
+{
+  "name": "react-code-scanner",
+  "version": "0.0.0",
+  "description": "A react module for scanning codes like barcodes and QR codes.",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Barcode",
+    "QR-Code",
+    "React"
+  ],
+  "author": "EvoCount GmbH",
+  "license": "MIT"
+}
