@@ -13,6 +13,7 @@ module.exports = {
 	...base,
 	mode: "development",
 	devtool: "eval-source-map",
+
 	devServer: {
 		contentBase: resolve(__dirname, "./build"),
 		public: "kontakt.buesum.de.localhost:3000",
