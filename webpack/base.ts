@@ -27,6 +27,7 @@ export default {
 		}
 	},
 	externals: {
-		"react": "commonjs react"
+		"react": "commonjs react",
+		"styled-components": "commonjs styled-components"
 	}
 }
