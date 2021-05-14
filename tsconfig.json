@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es5",
-		"lib": [ "es2015", "dom" ],
+		"target": "es3",
+		"lib": [ "es5", "dom" ],
 		"moduleResolution": "node",
 		"outDir": "build",
 		"jsx": "react",
@@ -19,9 +19,5 @@
 		"src/**/*.ts",
 		"src/**/*.tsx",
 		"types"
-	],
-	"exclude": [
-		"node_modules",
-		"build"
 	]
 }

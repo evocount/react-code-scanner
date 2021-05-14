@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true
+	},
+	"include": [
+		"webpack/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"build"
+	]
+}

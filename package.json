@@ -4,8 +4,8 @@
 	"description": "A react module for scanning codes like barcodes and QR codes.",
 	"main": "build/index.js",
 	"scripts": {
-		"build:development": "npx webpack --config webpack/development.js",
-		"build:production": "npm run clean && npx webpack --config webpack/production.js",
+		"build:development": "cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/development.js",
+		"build:production": "npm run clean && cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/production.js",
 		"clean": "rm -rf build",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepack": "npm run clean && npm run build:production"
@@ -19,8 +19,11 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/react": "^17.0.5",
+		"@types/w3c-image-capture": "^1.0.2",
+		"cross-env": "^7.0.3",
 		"ts-loader": "^9.1.2",
 		"typescript": "^4.2.4",
+		"copy-webpack-plugin": "^8.1.1",
 		"webpack": "^5.36.2",
 		"webpack-cli": "^4.7.0"
 	},
@@ -28,7 +31,9 @@
 		"react": "^17.0.2"
 	},
 	"dependencies": {
-		"copy-webpack-plugin": "^8.1.1",
-		"qr-scanner": "^1.2.0"
+		"@evocount/signal": "0.0.0",
+		"@zxing/browser": "0.0.9",
+		"@zxing/library": "^0.18.5",
+		"image-capture": "^0.4.0"
 	}
 }
