@@ -1,17 +1,34 @@
 import React from "react"
+import { ReactElement } from "react"
 import { useState } from "react"
 import { HTMLAttributes } from "react"
 import { useEffect } from "react"
 import { useRef } from "react"
+import { FunctionComponent } from "react"
 
 import Signal from "@evocount/signal"
+import styled from "styled-components"
 
+const Wrapper = styled.div`
+	position: relative;
+`
 
-export const camera_available = async () => true
+const StyledVideo = styled.video`
+	width: 100%;
+`
+
+const AnimationWrapper = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+`
 
 export interface Props extends HTMLAttributes<HTMLElement> {
-	on_scan: (result: string) => Promise<void>
+	on_scan?: (result: string) => Promise<void>
 	on_error?: (error: Error) => Promise<void>
+	LoadingAnimation?: FunctionComponent
 	facing_mode?: "environment" | "user"
 }
 
@@ -19,29 +36,46 @@ export default ({
 	on_scan,
 	on_error,
 	facing_mode,
+	children,
+	LoadingAnimation,
 	...props
 }: Props) => {
 	const [ loaded, set_loaded ] = useState(false)
-	const preview = useRef<HTMLVideoElement>(document.createElement("video"))
+	const [ loading_animation, set_loading_animation ] = useState(true)
+	const preview = useRef<HTMLVideoElement | null>(document.createElement("video"))
 
 	useEffect(() => {
 		const cancel = new Signal;
 
 		(async () => {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				video: { facingMode: facing_mode || "environment" }
-			})
+			try {
+				const stream = await navigator.mediaDevices.getUserMedia({
+					video: { facingMode: facing_mode || "environment" }
+				})
 
-			if(!loaded) {
-				preview.current.srcObject = stream
-				preview.current.play()
-				set_loaded(true)
+				if(!loaded && preview.current) {
+					preview.current.srcObject = stream
+					preview.current.load()
+					preview.current.play()
+					set_loaded(true)
+
+					preview.current.addEventListener("loadedmetadata", () => {
+						set_loading_animation(false)
+					})
+				}
+
+				if(on_scan) {
+					const Scanner = await import("./scanner")
+					const scanner = new Scanner.default(200)
+					await scanner.scan(cancel, stream, on_scan)
+				}
+			} catch(exception) {
+				if(on_error) {
+					on_error(exception)
+				} else {
+					console.error(exception)
+				}
 			}
-
-			const Scanner = await import("./scanner")
-			const scanner = new Scanner.default(200)
-
-			await scanner.scan(cancel, stream, on_scan)
 		})()
 
 		return () => {
@@ -49,5 +83,15 @@ export default ({
 		}
 	})
 
-	return <video { ...props } ref={ preview } />
+
+	return <Wrapper { ...props }>
+		<StyledVideo ref={ preview }>
+			{ children }
+		</StyledVideo>
+		{ LoadingAnimation && loading_animation &&
+			<AnimationWrapper>
+				<LoadingAnimation />
+			</AnimationWrapper>
+		}
+	</Wrapper>
 }
