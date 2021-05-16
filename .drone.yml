@@ -1,0 +1,33 @@
+---
+
+kind: pipeline
+name: default
+
+steps:
+  - name: install
+    image: node
+    commands:
+      - npm i
+
+  - name: test
+    image: node
+    commands:
+      - npm test
+
+  - name: build
+    image: node
+    commands:
+      - npm run build:production
+
+  - name: publish
+    image: plugins/npm
+    settings:
+      username:
+        from_secret: npm_username
+      token:
+        from_secret: npm_token
+      email:
+        from_secret: npm_email
+    when:
+      event:
+        - tag
