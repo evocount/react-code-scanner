@@ -5,17 +5,17 @@ name: default
 
 steps:
   - name: install
-    image: node
+	image: node:lts
     commands:
       - npm i
 
   - name: test
-    image: node
+	image: node:lts
     commands:
       - npm test
 
   - name: build
-    image: node
+	image: node:lts
     commands:
       - npm run build:production
 
