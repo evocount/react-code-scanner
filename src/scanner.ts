@@ -1,11 +1,7 @@
 import "image-capture"
 
 import { MultiFormatReader } from "@zxing/library"
-import { Result } from "@zxing/library"
-import { Exception } from "@zxing/library"
 import { NotFoundException } from "@zxing/library"
-import { DecodeHintType } from "@zxing/library"
-import { HTMLVisualMediaElement } from "@zxing/library"
 import { HTMLCanvasElementLuminanceSource } from "@zxing/library"
 import { HybridBinarizer } from "@zxing/library"
 import { BinaryBitmap } from "@zxing/library"
@@ -23,7 +19,7 @@ export default class Scanner {
 		this.canvas = document.createElement("canvas")
 	}
 
-	async decode(media: MediaStream, callback: (result: string) => Promise<void>) {
+	async decode(media: MediaStream, callback: (result: string) => Promise<void>): Promise<void> {
 		const track = media.getVideoTracks()[0]
 		const capture = new ImageCapture(track)
 		const frame = await capture.grabFrame()
@@ -49,7 +45,11 @@ export default class Scanner {
 		}
 	}
 
-	async scan(cancel: Signal, media: MediaStream, callback: (result: string) => Promise<void>) {
+	async scan(
+		cancel: Signal,
+		media: MediaStream,
+		callback: (result: string) => Promise<void>
+	): Promise<void> {
 		await cancel.repeat(async () => {
 			await this.decode(media, callback)
 			await cancel.timeout(this.timeout)

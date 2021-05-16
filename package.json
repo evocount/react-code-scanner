@@ -3,11 +3,13 @@
 	"version": "0.0.5",
 	"description": "A react module for scanning codes like barcodes and QR codes.",
 	"main": "build/index.js",
+	"repository": "git@github.com:evocount/react-code-scanner.git",
 	"scripts": {
 		"build:development": "cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/development.ts",
 		"build:production": "npm run clean && cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/production.ts",
 		"clean": "rm -rf build",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "npm run test:lint",
+		"test:lint": "npx eslint src/**/*",
 		"prepack": "npm run clean && npm run build:production",
 		"analyze": "cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/analyze.ts"
 	},
@@ -25,7 +27,11 @@
 		"@types/w3c-image-capture": "^1.0.2",
 		"@types/webpack": "^5.28.0",
 		"@types/webpack-bundle-analyzer": "^4.4.0",
+		"@typescript-eslint/eslint-plugin": "^4.23.0",
+		"@typescript-eslint/parser": "^4.23.0",
 		"cross-env": "^7.0.3",
+		"eslint": "^7.26.0",
+		"eslint-plugin-react": "^7.23.2",
 		"ts-loader": "^9.1.2",
 		"ts-node": "^9.1.1",
 		"typescript": "^4.2.4",
@@ -38,7 +44,7 @@
 		"react-dom": "^17.0.2"
 	},
 	"dependencies": {
-		"@evocount/signal": "0.0.0",
+		"@evocount/signal": "0.0.7",
 		"@zxing/browser": "0.0.9",
 		"@zxing/library": "^0.18.5",
 		"image-capture": "^0.4.0",

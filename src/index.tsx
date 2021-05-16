@@ -39,7 +39,7 @@ export default ({
 	children,
 	LoadingAnimation,
 	...props
-}: Props) => {
+}: Props): ReactElement => {
 	const [ loaded, set_loaded ] = useState(false)
 	const [ loading_animation, set_loading_animation ] = useState(true)
 	const preview = useRef<HTMLVideoElement>(document.createElement("video"))
