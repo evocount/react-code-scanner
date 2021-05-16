@@ -1,6 +1,6 @@
 {
 	"name": "@evocount/react-code-scanner",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "A react module for scanning codes like barcodes and QR codes.",
 	"main": "build/index.js",
 	"repository": "git@github.com:evocount/react-code-scanner.git",
