@@ -42,13 +42,21 @@ export default ({
 }: Props): ReactElement => {
 	const [ loaded, set_loaded ] = useState(false)
 	const [ loading_animation, set_loading_animation ] = useState(true)
-	const preview = useRef<HTMLVideoElement>(document.createElement("video"))
+	const preview = useRef<HTMLVideoElement | null>(null)
 
 	useEffect(() => {
+		if(preview.current === null) {
+			return
+		}
+
 		const cancel = new Signal;
 
 		(async () => {
 			try {
+				if(preview.current === null) {
+					return
+				}
+
 				const stream = await navigator.mediaDevices.getUserMedia({
 					video: { facingMode: facing_mode || "environment" }
 				})
