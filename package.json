@@ -1,6 +1,6 @@
 {
 	"name": "@evocount/react-code-scanner",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"description": "A react module for scanning codes like barcodes and QR codes.",
 	"main": "build/cjs/index.js",
 	"module": "build/esm/index.js",
