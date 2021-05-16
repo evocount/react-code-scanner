@@ -64,7 +64,7 @@ export default ({
 				if(!loaded) {
 					preview.current.srcObject = stream
 					preview.current.load()
-					preview.current.play()
+					await preview.current.play()
 					set_loaded(true)
 
 					preview.current.addEventListener("loadedmetadata", () => {
