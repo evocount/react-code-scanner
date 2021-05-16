@@ -19,28 +19,42 @@ export default class Scanner {
 		this.canvas = document.createElement("canvas")
 	}
 
+	async draw(capture: ImageCapture): Promise<void> {
+		const photo = await capture.takePhoto()
+		const image = new Image()
+		image.src = URL.createObjectURL(photo)
+
+
+		return new Promise(resolve => {
+			image.onload = () => {
+				this.canvas.width = image.width
+				this.canvas.height = image.height
+
+				const context = this.canvas.getContext("2d")
+
+				if(context) {
+					context.drawImage(image, 0, 0)
+					resolve()
+				}
+			}
+		})
+	}
+
 	async decode(media: MediaStream, callback: (result: string) => Promise<void>): Promise<void> {
 		const track = media.getVideoTracks()[0]
 		const capture = new ImageCapture(track)
-		const frame = await capture.grabFrame()
+		await this.draw(capture)
 
-		this.canvas.width = frame.width
-		this.canvas.height = frame.height
-		const context = this.canvas.getContext("2d")
+		const luminanceSource = new HTMLCanvasElementLuminanceSource(this.canvas)
+		const hybridBinarizer = new HybridBinarizer(luminanceSource)
+		const bitmap = new BinaryBitmap(hybridBinarizer)
 
-		if(context) {
-			context.drawImage(frame, 0, 0)
-			const luminanceSource = new HTMLCanvasElementLuminanceSource(this.canvas)
-			const hybridBinarizer = new HybridBinarizer(luminanceSource)
-			const bitmap = new BinaryBitmap(hybridBinarizer)
-
-			try {
-				const result = this.reader.decode(bitmap)
-				await callback(result.getText())
-			} catch(exception) {
-				if(!(exception instanceof NotFoundException)) {
-					throw exception
-				}
+		try {
+			const result = this.reader.decode(bitmap)
+			await callback(result.getText())
+		} catch(exception) {
+			if(!(exception instanceof NotFoundException)) {
+				throw exception
 			}
 		}
 	}
