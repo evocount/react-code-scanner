@@ -42,7 +42,7 @@ export default ({
 }: Props) => {
 	const [ loaded, set_loaded ] = useState(false)
 	const [ loading_animation, set_loading_animation ] = useState(true)
-	const preview = useRef<HTMLVideoElement | null>(document.createElement("video"))
+	const preview = useRef<HTMLVideoElement>(document.createElement("video"))
 
 	useEffect(() => {
 		const cancel = new Signal;
@@ -53,7 +53,7 @@ export default ({
 					video: { facingMode: facing_mode || "environment" }
 				})
 
-				if(!loaded && preview.current) {
+				if(!loaded) {
 					preview.current.srcObject = stream
 					preview.current.load()
 					preview.current.play()
@@ -69,6 +69,8 @@ export default ({
 					const scanner = new Scanner.default(200)
 					await scanner.scan(cancel, stream, on_scan)
 				}
+
+				stream.getTracks().forEach(track => track.stop())
 			} catch(exception) {
 				if(on_error) {
 					on_error(exception)
@@ -81,7 +83,7 @@ export default ({
 		return () => {
 			cancel.notify()
 		}
-	})
+	}, [ preview ])
 
 
 	return <Wrapper { ...props }>

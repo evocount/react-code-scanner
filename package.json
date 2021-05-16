@@ -3,9 +3,6 @@
 	"version": "0.0.5",
 	"description": "A react module for scanning codes like barcodes and QR codes.",
 	"main": "build/index.js",
-	"files": [
-		"build/*"
-	],
 	"scripts": {
 		"build:development": "cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/development.ts",
 		"build:production": "npm run clean && cross-env TS_NODE_PROJECT=\"webpack.tsconfig.json\" npx webpack --config webpack/production.ts",
@@ -38,12 +35,13 @@
 	},
 	"peerDependencies": {
 		"react": "^17.0.2",
-		"styled-components": "^5.3.0"
+		"react-dom": "^17.0.2"
 	},
 	"dependencies": {
 		"@evocount/signal": "0.0.0",
 		"@zxing/browser": "0.0.9",
 		"@zxing/library": "^0.18.5",
-		"image-capture": "^0.4.0"
+		"image-capture": "^0.4.0",
+		"styled-components": "^5.3.0"
 	}
 }
