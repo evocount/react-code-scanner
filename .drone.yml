@@ -17,7 +17,7 @@ steps:
   - name: build
     image: node:lts
     commands:
-      - npm run build:production
+      - npm run build
 
   - name: publish
     image: plugins/npm
