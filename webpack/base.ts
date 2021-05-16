@@ -38,6 +38,12 @@ export default {
 			"commonjs": "react-dom",
 			"commonjs2": "react-dom",
 			"amd": "react-dom"
+		},
+		"styled-components": {
+			"root": "StyledComponents",
+			"commonjs": "styled-components",
+			"commonjs2": "styled-components",
+			"amd": "styled-components"
 		}
 	}
 }
