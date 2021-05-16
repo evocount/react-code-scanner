@@ -66,10 +66,8 @@ export default ({
 					preview.current.load()
 					await preview.current.play()
 					set_loaded(true)
+					set_loading_animation(false)
 
-					preview.current.addEventListener("loadedmetadata", () => {
-						set_loading_animation(false)
-					})
 				}
 
 				if(on_scan) {
@@ -95,7 +93,7 @@ export default ({
 
 
 	return <Wrapper { ...props }>
-		<StyledVideo ref={ preview }>
+		<StyledVideo muted playsInline autoPlay ref={ preview }>
 			{ children }
 		</StyledVideo>
 		{ LoadingAnimation && loading_animation &&
